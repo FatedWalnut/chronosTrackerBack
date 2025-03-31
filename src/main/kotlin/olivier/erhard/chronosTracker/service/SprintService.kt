@@ -4,7 +4,6 @@ import olivier.erhard.chronosTracker.model.Sprint
 import olivier.erhard.chronosTracker.repository.SprintRepository
 import org.springframework.stereotype.Service
 
-
 @Service
 class SprintService(private val sprintRepository: SprintRepository){
 
@@ -12,7 +11,10 @@ class SprintService(private val sprintRepository: SprintRepository){
 
     fun getSprintById(id: Long): Sprint? = sprintRepository.findById(id).orElse(null)
 
-    fun createSprint(sprint: Sprint): Sprint = sprintRepository.save(sprint)
+    fun createSprint(sprint: Sprint): Sprint {
+        // A lógica para salvar a sprint no banco de dados
+        return sprintRepository.save(sprint)
+    }
 
     fun updateSprint(id: Long, updateSprint: Sprint): Sprint? {
         val sprint = sprintRepository.findById(id).orElse(null) ?: return null
@@ -22,7 +24,8 @@ class SprintService(private val sprintRepository: SprintRepository){
             horaInicio = updateSprint.horaInicio,
             horaFinalizacao = updateSprint.horaFinalizacao
         )
-        return newSprint
+        return sprintRepository.save(newSprint)
     }
+
     fun deleteSprint(id: Long) = sprintRepository.deleteById(id)
 }
